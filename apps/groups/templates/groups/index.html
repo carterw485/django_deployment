@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta content-type="text/html">
+	<title>Blackbelt</title>
+	<meta name="description" content="description"/>
+	<link rel="stylesheet" type="text/css" href="/static/groups/assets/css/materialize.min.css">
+</head>
+<body>
+<div class="container section">
+	<div class="row">
+		<div class="row section">
+			<h4 class="col s6 left-align">Hi {{ user.first_name }} {{ user.last_name }}!</h4>
+			<a href="/users/logout" class="col s6 right-align"><h5>Logout</h5></a>
+		</div>
+		<div class="col s6">
+			<div class="row section">
+					<h5>Here are the groups you can join:</h5>
+			</div>
+			{% for group in groups %}
+				<div class="col s12">
+					<a href="/groups/{{group.id}}" class="col s12">{{ group.name }}</a>
+					<span class="col s11 offset-s1">Members: 
+						{% for member in members %}
+							{% if member.group == group %}
+								{{ counter }}
+							{% endif %}
+						{% endfor %}
+					</span>
+					<span class="col s11 offset-s1">{{ group.description }}</span>
+				</div>
+			{% endfor %}
+		</div>
+		<form action="/groups/" method="post" class="col s6 card">
+			{% csrf_token %}
+			<div class="card-content">
+				<h5>Create a new group:</h5>
+				<div class="input-field col s12">
+					<input type="text" name="name" id="name">
+					<label for="name">Group Name</label>
+				</div>
+				<div class="input-field col s12">
+					<textarea name="description" id="description" class="materialize-textarea"></textarea>
+					<label for="description">Description</label>
+				</div>
+				<div class="input-field col s12 right-align row">
+					<button class="btn blue">Create Group</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+</div>
+	<script type="text/javascript" src="/static/groups/assets/js/jquery.min.js"></script>
+	<script language="javascript" src="/static/groups/assets/js/materialize.min.js"></script>
+</body>
+</html>

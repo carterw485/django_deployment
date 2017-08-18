@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Blackbelt</title>
+	<meta name="description" content="description"/>
+	<link rel="stylesheet" type="text/css" href="/static/groups/assets/css/materialize.min.css">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<h5 class="col s12 right-align"><a href="/groups/" class="col s2 right-align offset-s6">Dashboard</a><a href="/users/logout/" class="col s2 right-align">Logout</a></h5>
+		{% if isCreator %}
+			<a class="red btn" onclick="destroy({{ group.id }})">Delete group</a>
+		{% else %}
+
+		{% endif %}
+		<h4 class="col s12">{{ group.name }}</h4>
+		<div class="row">
+			<p class="col s11 offset-s1">{{ group.description }}</p>
+		</div>
+		<div class="row">
+			<h5>Created by: {{ group.created_by.first_name }} {{ group.created_by.last_name }}</h5>
+		</div>
+		<div class="row">
+			<h5>Members:</h5>
+			{% for member in members %}
+			<p>{{ member.user.first_name }} {{ member.user.last_name }}</p>
+			{% endfor %}
+		</div>
+		<div class="row">
+			{% if isMember %}
+				<a class="btn red" href="/members/{{ group.id }}/leave/">Leave Group</a>
+			{% else %}
+				<a class="btn green" href="/members/{{ group.id }}/">Join Group</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+	<script type="text/javascript" src="/static/groups/assets/js/jquery.min.js"></script>
+	<script language="javascript" src="/static/groups/assets/js/materialize.min.js"></script>
+	<script>
+  	$(document).ready(function(){
+  		var csrftoken = getCookie('csrftoken');
+  		$.ajaxSetup({
+  		  beforeSend: function(xhr, settings) {
+  		    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+  		        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+  		  }
+  		}
+  		});
+		
+  		});
+  		function getCookie(name) {
+  		var cookieValue = null;
+  		if (document.cookie && document.cookie != '') {
+  		    var cookies = document.cookie.split(';');
+  		    for (var i = 0; i < cookies.length; i++) {
+  		        var cookie = jQuery.trim(cookies[i]);
+  		        // Does this cookie string begin with the name we want?
+  		        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+  		            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+  		            break;
+  		        }
+  		    }
+  		}
+  		return cookieValue;
+  		}
+		
+  		function csrfSafeMethod(method) {
+  		// these HTTP methods do not require CSRF protection
+  		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  		}
+		
+//		RESTFUL ROUTES
+  		function index(){
+  		  var csrftoken = getCookie('csrftoken');
+  		  // ANGULAR COMPARISON <-- angular does a few other things on the back end
+  		  //$http.get('models').success(function(){$('div').html(data);});
+		
+  		  $.ajax({
+  		    url: "/models/",
+  		    method: 'GET',
+  		    data:{"hello":"hello"},
+  		    success: function(data){
+  		      $('div').html(data);
+  		    }
+  		  });
+  		}
+  		// note the _ new and delete... dedicated words in jscript
+  		function _new(){
+  		  var csrftoken = getCookie('csrftoken');
+  		  $.ajax({
+  		    url: "/models/new",
+  		    method: 'GET',
+  		    data:{"hello":"hello"},
+  		    success: function(data){
+  		      $('div').html(data);
+  		    }
+  		  });
+  		}
+		
+  		function create(){
+  		  var csrftoken = getCookie('csrftoken');
+  		  $.ajax({
+  		    url: "/models/",
+  		    method: 'POST',
+  		    data:{"hello":"hello"},
+  		    success: function(data){
+  		      $('div').html(data);
+  		    }
+  		  });
+  		}
+		
+  		function show(param){
+  		  var csrftoken = getCookie('csrftoken');
+  		  $.ajax({
+  		    url: "/models/"+param +"/",
+  		    method: 'POST',
+  		    data:{"hello":"hello"},
+  		    success: function(data){
+  		      $('div').html(data);
+  		    }
+  		  });
+  		}
+		
+  		function edit(param){
+  		  var csrftoken = getCookie('csrftoken');
+  		  $.ajax({
+  		    url: "/models/" +param +"/edit",
+  		    method: 'GET',
+  		    success: function(data){
+  		      $('div').html(data);
+  		    }
+  		  });
+  		}
+		
+  		function update(param){
+  		  var csrftoken = getCookie('csrftoken');
+  		  $.ajax({
+  		    url: "/models/"+param,
+  		    method: 'PATCH',
+  		    data:{"hello":"hello"},
+  		    success: function(data){
+  		      $('div').html(data);
+  		    }
+  		  });
+  		}
+		
+  		function destroy(param){
+  		  var csrftoken = getCookie('csrftoken');
+  		  $.ajax({
+  		    url: "/groups/" +param+'/',
+  		    method: 'DELETE',
+  		    data:{"id":param},
+  		    success: function(data){
+  		      $('body').html(data);
+  		    }
+  		  });
+  		}
+	</script>
+</body>
+</html>

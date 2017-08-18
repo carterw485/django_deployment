@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Blackbelt</title>
+	<meta name="description" content="description"/>
+	<link rel="stylesheet" type="text/css" href="/static/groups/assets/css/materialize.min.css">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<h3 class="col s4">Register:</h3>
+		<h3 class="col s8">Log in:</h3>
+		<form action="/users/" method="post" class="col s4">
+			{% csrf_token %}
+			<div class="input-field col s12">
+				<input type="text" name="first_name" id="firstname">
+				<label for="firstname">First Name</label>
+			</div>
+			<div class="input-field col s12">
+				<input type="text" name="last_name" id="lastname">
+				<label for="lastname">Last Name</label>
+			</div>
+			<div class="input-field col s12">
+				<input type="text" name="username" id="regusername">
+				<label for="regusername">Username</label>
+			</div>
+			<div class="input-field col s12">
+				<input type="password" name="password" id="regpassword">
+				<label for="regpassword">Password</label>
+			</div>
+			<div class="input-field col s12 right-align">
+				<button class="btn blue">Register</button>
+			</div>
+		</form>
+		<form action="/users/login/" method="post" class="col s4">
+			{% csrf_token %}
+			<div class="input-field col s12">
+				<input type="text" name="username" id="username">
+				<label for="username">Username</label>
+			</div>
+			<div class="input-field col s12">
+				<input type="password" name="password" id="password">
+				<label for="password">Password</label>
+			</div>
+			<div class="input-field col s12 right-align">
+				<button class="btn green">Log in</button>
+			</div>
+		</form>
+		{% if exists %}
+			<h5>{{errors}}</h5>
+		{% endif %}
+	</div>
+</div>
+	<script type="text/javascript" src="/static/groups/assets/js/jquery.min.js"></script>
+	<script language="javascript" src="/static/groups/assets/js/materialize.min.js"></script>
+</body>
+</html>
